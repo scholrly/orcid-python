@@ -1,18 +1,27 @@
 import requests
 
+from .constants import ORCID_PUBLIC_BASE_URL
+from .utils import dictmapper
+
 from .exceptions import NotFoundException
-from .constants import ORCID_PUBLIC_BASE_URL 
 
 BASE_HEADERS = {'Accept':'application/orcid+json'}
 
-class Author(dict):
-    @property
-    def orcid(self):
-        """
-        An author's ORCID profile identifier, or None if not found in the
-        backing dict.
-        """
-        return self.get('orcid-profile',{}).get('orcid',{}).get('value', None)
+PERSONAL_DETAILS_PATH = ('orcid-profile','orcid-bio','personal-details')
+
+AuthorBase = dictmapper('AuthorBase', {
+    'orcid':('orcid-profile','orcid','value'),
+    'family_name':PERSONAL_DETAILS_PATH + ('family-name','value'),
+    'given_name':PERSONAL_DETAILS_PATH + ('given-names','value'),
+})
+
+class Author(AuthorBase):
+    pass
+
+Citation = dictmapper('Citation', {
+    'citation':['citation'],
+    'citation_type':['work-citation-type']
+})
 
 def get(orcid_id):
     """
