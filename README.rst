@@ -9,11 +9,11 @@ Here's a quick snippet to get info on `John Wilbanks`_. ::
 
     #retrieve john's profile from his ORCID
     author = orcid.get('0000-0002-4510-0385')
-    print author['orcid-bio']['personal-details']['family-name']['value']
+    print author.family_name
 
     #do a simple author search for john
     authors = orcid.search('john wilbanks')
-    print authors[0]['orcid-bio']['personal-details']['family-name']['value']
+    print authors[0].family_name
 
 Enjoy!
 
