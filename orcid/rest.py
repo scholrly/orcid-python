@@ -18,12 +18,31 @@ def _parse_keywords(d):
         return d.get('keyword',[{}])[0].get('value','').split(',')
     return []
 
+WebsiteBase = dictmapper('WebsiteBase', {
+    'name':['url-name','value'],
+    'url':['url', 'value']
+})
+
+class Website(WebsiteBase):
+    def __unicode__(self):
+        return self.url
+
+    def __repr__(self):
+        return "<%s %s [%s]>" % (type(self).__name__, self.name, self.url)
+
+def _parse_researcher_urls(l):
+    if l is not None:
+        return [Website(d) for d in l]
+    return []
+
 AuthorBase = dictmapper('AuthorBase', {
     'orcid':['orcid-profile','orcid','value'],
     'family_name':PERSONAL_DETAILS_PATH + ['family-name','value'],
     'given_name':PERSONAL_DETAILS_PATH + ['given-names','value'],
     'biography':BIO_PATH + ['biography',],
-    'keywords':to(BIO_PATH + ['keywords'], _parse_keywords)
+    'keywords':to(BIO_PATH + ['keywords'], _parse_keywords),
+    'researcher_urls':to(BIO_PATH + ['researcher-urls','researcher-url'],
+                         _parse_researcher_urls),
 })
 
 class Author(AuthorBase):
