@@ -27,7 +27,9 @@ AuthorBase = dictmapper('AuthorBase', {
 })
 
 class Author(AuthorBase):
-    pass
+    def __repr__(self):
+        return "<%s %s %s, ORCID %s>" % (type(self).__name__, self.given_name,
+                                         self.family_name, self.orcid)
 
 Citation = dictmapper('Citation', {
     'citation':['citation'],
