@@ -26,6 +26,12 @@ Hm, let's try another author.::
     >>> print alfonso.publications[0]
     <Publication "A note about norbert wiener and his contribution to harmonic analysis and tauberian theorems">
 
+
+Maybe you'd like to read about Mr. Wiener's contributions?
+
+    >>> print alfonso.publications[0].url
+    http://www.scopus.com/inward/record.url?eid=2-s2.0-67650513866&partnerID=MN8TOARS
+
 Searching
 =========
 
@@ -36,7 +42,7 @@ If you'd rather search for authors, try ORCID's search functionality::
     >>> print next(authors).family_name
     'wilbanks'
 
-You can also accomplish more complex queries using `Q` objects::
+You can also accomplish more complex queries using `Q` objects and fields::
 
     >>> from orcid import Q
     >>> authors = orcid.search(Q('given-name','john') & Q('family-name', 'wilbanks'))
