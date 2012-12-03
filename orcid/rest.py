@@ -35,9 +35,37 @@ def _parse_researcher_urls(l):
         return [Website(d) for d in l]
     return []
 
+CitationBase = dictmapper('CitationBase', {
+    'text':['citation'],
+    'type':['work-citation-type']
+})
+
+class Citation(CitationBase):
+    def __unicode__(self):
+        return self.text
+
+    def __repr__(self):
+        return '<%s [type: %s]>' % (type(self).__name__, self.type)
+
+ExternalIDBase = dictmapper('ExternalIDBase', {
+    'id':['work-external-identifier-id','value'],
+    'type':['work-external-identifier-type']
+})
+
+class ExternalID(ExternalIDBase):
+    def __unicode__(self):
+        return unicode(self.id)
+
+    def __repr__(self):
+        return '<%s %s:%s>' % (type(self).__name__, self.type, str(self.id))
+
 PublicationBase = dictmapper('PublicationBase',{
     'title':['work-title','title','value'],
     'subtitle':['work-title','subtitle','value'],
+    'url':['url'],
+    'citation':to(['citation'], lambda d: Citation(d) if d is not None else None),
+    'external_ids':to(['work-external-identifiers','work-external-identifier'],
+                      lambda l: map(ExternalID, l) if l is not None else None),
 })
 
 class Publication(PublicationBase):
