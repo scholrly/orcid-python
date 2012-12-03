@@ -2,7 +2,7 @@ def dict_value_from_path(d, path):
     cur_dict = d
     for key in path[:-1]:
         cur_dict = cur_dict.get(key, {})
-    return cur_dict.get(path[-1], None)
+    return cur_dict.get(path[-1], None) if cur_dict is not None else None
 
 def dictmapper(typename, mapping):
     """

@@ -35,6 +35,26 @@ def _parse_researcher_urls(l):
         return [Website(d) for d in l]
     return []
 
+PublicationBase = dictmapper('PublicationBase',{
+    'title':['work-title','title','value'],
+    'subtitle':['work-title','subtitle','value'],
+})
+
+class Publication(PublicationBase):
+    def __repr__(self):
+        return '<%s "%s">' % (type(self).__name__, self.title)
+
+WORKS_PATH = ['orcid-profile', 'orcid-activities','orcid-works',]
+
+def _parse_publications(l):
+    if l is not None:
+        return [Publication(d) for d in l]
+    return []
+
+Works = dictmapper('Works', {
+    'publications':to(WORKS_PATH + ['orcid-work'], _parse_publications),
+})
+
 AuthorBase = dictmapper('AuthorBase', {
     'orcid':['orcid-profile','orcid','value'],
     'family_name':PERSONAL_DETAILS_PATH + ['family-name','value'],
@@ -46,6 +66,19 @@ AuthorBase = dictmapper('AuthorBase', {
 })
 
 class Author(AuthorBase):
+    _loaded_works = None
+
+    def _load_works(self):
+        resp = requests.get(ORCID_PUBLIC_BASE_URL + self.orcid
+                            + '/orcid-works', headers = BASE_HEADERS)
+        self._loaded_works = Works(resp.json)
+
+    @property
+    def publications(self):
+        if self._loaded_works is None:
+            self._load_works()
+        return self._loaded_works.publications
+
     def __repr__(self):
         return "<%s %s %s, ORCID %s>" % (type(self).__name__, self.given_name,
                                          self.family_name, self.orcid)
