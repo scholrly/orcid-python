@@ -27,7 +27,7 @@ Hm, let's try another author.::
     <Publication "A note about norbert wiener and his contribution to harmonic analysis and tauberian theorems">
 
 
-Maybe you'd like to read about Mr. Wiener's contributions?
+Maybe you'd like to read about Mr. Wiener's contributions?::
 
     >>> print alfonso.publications[0].url
     http://www.scopus.com/inward/record.url?eid=2-s2.0-67650513866&partnerID=MN8TOARS
