@@ -5,11 +5,29 @@ Example
 
 Here's a quick snippet to get info on `John Wilbanks`_. ::
 
-    import orcid
+    >>> import orcid
+    >>> #retrieve john's profile from his ORCID
+    >>> john = orcid.get('0000-0002-4510-0385')
+    >>> print john.family_name
+    'wilbanks'
 
-    #retrieve john's profile from his ORCID
-    author = orcid.get('0000-0002-4510-0385')
-    print author.family_name
+What if you'd like to see an author's works or areas of interest?::
+
+    >>> print john.keywords
+    []
+    >>> print john.publications
+    []
+
+Hm, let's try another author.::
+
+    >>> alfonso = orcid.get('0000-0001-8855-5569')
+    >>> print alfonso.keywords
+    [u'computer science', u' bioinformatics', u' computational biology']
+    >>> print alfonso.publications[0]
+    <Publication "A note about norbert wiener and his contribution to harmonic analysis and tauberian theorems">
+
+Searching
+=========
 
 If you'd rather search for authors, try ORCID's search functionality::
 
@@ -17,9 +35,6 @@ If you'd rather search for authors, try ORCID's search functionality::
     >>> authors = orcid.search('john wilbanks')
     >>> print next(authors).family_name
     'wilbanks'
-
-More Complicated Searches
-=========================
 
 You can also accomplish more complex queries using `Q` objects::
 
