@@ -62,7 +62,7 @@ class ExternalID(ExternalIDBase):
 PublicationBase = dictmapper('PublicationBase',{
     'title':['work-title','title','value'],
     'subtitle':['work-title','subtitle','value'],
-    'url':['url'],
+    'url':['url','value'],
     'citation':to(['citation'], lambda d: Citation(d) if d is not None else None),
     'external_ids':to(['work-external-identifiers','work-external-identifier'],
                       lambda l: map(ExternalID, l) if l is not None else None),
