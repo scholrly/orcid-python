@@ -18,7 +18,7 @@ setup(name='orcid-python',
       license='MIT',
       packages=['orcid'],
       install_requires=[
-                      'requests>=0.14.2',
+                      'requests>=1.0.4',
                       'lucene-querybuilder>=0.1.6',
                   ]
      )
