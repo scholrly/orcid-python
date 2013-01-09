@@ -99,7 +99,7 @@ class Author(AuthorBase):
     def _load_works(self):
         resp = requests.get(ORCID_PUBLIC_BASE_URL + self.orcid
                             + '/orcid-works', headers = BASE_HEADERS)
-        self._loaded_works = Works(resp.json)
+        self._loaded_works = Works(resp.json())
 
     @property
     def publications(self):
@@ -122,12 +122,12 @@ def get(orcid_id):
     """
     resp = requests.get(ORCID_PUBLIC_BASE_URL + unicode(orcid_id),
                         headers=BASE_HEADERS)
-    json_body = resp.json
+    json_body = resp.json()
     return Author(json_body)
 
 def search(query):
     resp = requests.get(ORCID_PUBLIC_BASE_URL + 'search/orcid-bio',
                         params={'q':unicode(query)}, headers=BASE_HEADERS)
-    json_body = resp.json
+    json_body = resp.json()
     return (Author(res) for res in json_body.get('orcid-search-results', {})\
             .get('orcid-search-result'))
